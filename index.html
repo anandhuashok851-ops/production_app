@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Production Pro App</title>
+
+<!-- Icons & Fonts -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Chart.js for Graphics -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root {
+    /* Light Theme Variables */
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --bg: #f3f4f6;
+    --surface: #ffffff;
+    --text-main: #1f2937;
+    --text-sec: #6b7280;
+    --border: #e5e7eb;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --nav-height: 70px;
+}
+
+/* Dark Theme Variables */
+body.dark {
+    --bg: #111827;
+    --surface: #1f2937;
+    --text-main: #f9fafb;
+    --text-sec: #9ca3af;
+    --border: #374151;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg);
+    color: var(--text-main);
+    height: 100vh;
+    overflow: hidden;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Scrollbar Hiding --- */
+#app::-webkit-scrollbar { display: none; }
+#app { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* --- Layout --- */
+#app {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    padding-bottom: 90px; /* Space for bottom nav */
+    scroll-behavior: smooth;
+}
+
+/* --- Header --- */
+header {
+    background: var(--surface);
+    padding: 15px 20px;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+header h1 { margin: 0; font-size: 1.25rem; font-weight: 700; color: var(--primary); }
+
+.theme-toggle {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+/* --- Views (SPA) --- */
+.view { display: none; animation: slideUp 0.4s ease-out; padding-bottom: 20px; }
+.view.active { display: block; }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Dashboard Cards & Charts --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: var(--surface);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.stat-card:active { transform: scale(0.95); }
+.stat-card.full-width { grid-column: span 2; }
+
+.stat-value { font-size: 1.8rem; font-weight: 800; color: var(--primary); margin: 5px 0; }
+.stat-label { font-size: 0.8rem; color: var(--text-sec); font-weight: 500; text-transform: uppercase; }
+
+.chart-container {
+    background: var(--surface);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    height: 250px;
+    position: relative;
+}
+
+/* --- Project List Cards --- */
+.card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--primary);
+    transition: transform 0.2s;
+}
+.card:active { transform: scale(0.98); }
+
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.card-title { font-weight: 700; font-size: 1.1rem; color: var(--text-main); }
+.card-subtitle { font-size: 0.85rem; color: var(--text-sec); }
+
+.badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; color: white; }
+.bg-green { background: var(--success); }
+.bg-red { background: var(--danger); }
+.bg-blue { background: var(--primary); }
+.bg-orange { background: var(--warning); }
+.bg-gray { background: var(--text-sec); }
+
+/* --- Forms --- */
+.form-group { margin-bottom: 15px; }
+label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-sec); margin-bottom: 6px; }
+
+input, select, textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: var(--bg);
+    color: var(--text-main);
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+input:focus, select:focus, textarea:focus { 
+    outline: none; 
+    border-color: var(--primary); 
+    background: var(--surface);
+}
+
+/* --- Buttons --- */
+.btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    transition: transform 0.2s;
+}
+.btn:active { transform: scale(0.98); }
+.btn-danger { background: var(--danger); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); margin-top: 10px; }
+.btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); margin-top: 10px; }
+
+/* --- Bottom Navigation --- */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    z-index: 100;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-sec);
+    font-size: 0.75rem;
+    cursor: pointer;
+    flex: 1;
+    transition: color 0.3s;
+}
+
+.nav-item i { font-size: 1.4rem; margin-bottom: 4px; transition: transform 0.3s; }
+.nav-item.active { color: var(--primary); }
+.nav-item.active i { transform: translateY(-4px); }
+
+/* --- Modal --- */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+}
+.modal-content {
+    background: var(--surface);
+    padding: 25px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: var(--text-main);
+}
+@keyframes popIn { from{transform: scale(0.8); opacity: 0;} to{transform: scale(1); opacity: 1;} }
+
+/* --- Toast Notification --- */
+#toast {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 50px;
+    padding: 12px;
+    position: fixed;
+    z-index: 300;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    font-size: 0.9rem;
+}
+#toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+@keyframes fadein { from {bottom: 70px; opacity: 0;} to {bottom: 90px; opacity: 1;} }
+@keyframes fadeout { from {bottom: 90px; opacity: 1;} to {bottom: 70px; opacity: 0;} }
+
+</style>
+</head>
+<body>
+
+    <header>
+        <h1 id="page-title">Dashboard</h1>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon" id="theme-icon"></i>
+        </button>
+    </header>
+
+    <div id="app">
+        
+        <!-- VIEW 1: DASHBOARD (Stats & Charts) -->
+        <div id="view-dashboard" class="view active">
+            
+            <!-- Stat Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Jobs</div>
+                    <div class="stat-value" id="stat-total">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">In Progress</div>
+                    <div class="stat-value" id="stat-progress" style="color: var(--primary);">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Completed</div>
+                    <div class="stat-value" id="stat-completed" style="color: var(--success);">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Late Deliveries</div>
+                    <div class="stat-value" id="stat-late" style="color: var(--danger);">0</div>
+                </div>
+                <div class="stat-card full-width">
+                    <div class="stat-label">On-Time Delivery Rate</div>
+                    <div class="stat-value" id="stat-rate">0%</div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="chart-container">
+                <canvas id="statusChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="deliveryChart"></canvas>
+            </div>
+
+            <h3 style="margin-top: 30px; border-left: 4px solid var(--primary); padding-left: 10px;">Recent Projects</h3>
+            <div id="dashboard-list"></div>
+        </div>
+
+        <!-- VIEW 2: PROJECT LIST -->
+        <div id="view-list" class="view">
+            <div style="margin-bottom: 15px;">
+                <input type="text" id="search-input" placeholder="Search Project or SO No..." onkeyup="renderProjectList()">
+            </div>
+            <div id="project-list"></div>
+            <div id="empty-state" style="text-align: center; margin-top: 50px; color: var(--text-sec); display: none;">
+                <i class="fas fa-box-open" style="font-size: 3rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                <p>No projects found.</p>
+            </div>
+        </div>
+
+        <!-- VIEW 3: CREATE NEW PROJECT -->
+        <div id="view-create" class="view">
+            <h2 style="margin-top:0;">New Project</h2>
+            <form onsubmit="handleCreate(event)">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label>SO No</label>
+                    <input type="text" name="so_no" required>
+                </div>
+                <div class="form-group">
+                    <label>Project Name</label>
+                    <input type="text" name="project_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Job Type</label>
+                    <input type="text" name="job_type">
+                </div>
+                <div class="form-group">
+                    <label>Qty</label>
+                    <input type="number" name="qty" required>
+                </div>
+                <div class="form-group">
+                    <label>Salesperson</label>
+                    <select name="salesperson" required>
+                        <option value="">Select...</option>
+                        <option>NINETTE</option><option>ABDELRAHMAN</option><option>AJMAL</option>
+                        <option>ASWIN JEMI</option><option>ANIL</option><option>BILAL</option>
+                        <option>DORISS</option><option>DAKHEEL</option><option>SREENIVAS</option>
+                        <option>RESHMA</option><option>SUKHJINDER</option><option>RINKHU</option>
+                        <option>PRASHANT</option><option>MAHERU</option><option>ESHA</option>
+                        <option>NATHA ASHIQUE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Designer</label>
+                    <select name="designer">
+                        <option>Neil</option><option>Ronaldo</option><option>Aditya</option><option>Krishna</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Committed Delivery Date</label>
+                    <input type="date" name="committed_date" required>
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="date" name="start_date" id="create_start" required>
+                </div>
+                 <div class="form-group">
+                    <label>Completion Date</label>
+                    <input type="date" name="completion_date" id="create_end" onchange="calcCreateDays()">
+                </div>
+                 <div class="form-group">
+                    <label>Time to Complete (Days)</label>
+                    <input type="text" name="days" id="create_days" readonly style="background:var(--bg);">
+                </div>
+
+                <button type="submit" class="btn">Create Project</button>
+            </form>
+        </div>
+
+        <!-- VIEW 4: UPDATE PROJECT -->
+        <div id="view-update" class="view">
+            <input type="hidden" id="update_id">
+            <h2 style="margin-top:0;">Update Project</h2>
+            <div id="update-project-name" style="color: var(--primary); font-weight:bold; margin-bottom:15px;"></div>
+            
+            <form onsubmit="handleUpdate(event)">
+                <div class="form-group">
+                    <label>Current Stage</label>
+                    <select name="current_stage" id="update_stage" onchange="checkDispatchTrigger(this.value)">
+                        <option>Printing</option><option>Stitching</option><option>Ready for dispatch</option><option>Completed</option><option>On Hold</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Material Used</label>
+                    <select name="material">
+                        <option>Taffeta Satin</option><option>Bridal Satin</option><option>Knitted Polyester</option><option>Mesh Fabric</option>
+                        <option>Blockout Fabric</option><option>Light Box Fabric</option><option>Banner Matte (New)</option>
+                        <option>Banner Matte (Old)</option><option>Fabric Canvas</option><option>Minimai</option><option>Dry Fit</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Delivery Status</label>
+                    <select name="delivery_status">
+                        <option>On Time Completed</option><option>Late</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Actual Delivery Date</label>
+                    <input type="date" name="actual_date">
+                </div>
+                <div class="form-group">
+                    <label>Remarks</label>
+                    <textarea rows="2" name="remarks"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Manpower</label>
+                    <input type="text" name="manpower">
+                </div>
+                <div class="form-group">
+                    <label>Workshop Action</label>
+                    <input type="text" name="workshop_action">
+                </div>
+
+                <button type="submit" class="btn">Save Update</button>
+                <button type="button" class="btn btn-danger" onclick="deleteCurrentProject()">Delete</button>
+                <button type="button" class="btn btn-outline" onclick="navTo('list')">Cancel</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- POPUP MODAL -->
+    <div id="modal-dispatch" class="modal">
+        <div class="modal-content">
+            <h3 style="margin-top:0; color: var(--primary);">Ready for Dispatch?</h3>
+            <p style="font-size:0.9rem; color:var(--text-sec); margin-bottom:20px;">Please confirm the final dispatch details.</p>
+            <div class="form-group">
+                <label>Final Completion Date</label>
+                <input type="date" id="dispatch_date">
+            </div>
+            <div class="form-group">
+                <label>Final Delivery Status</label>
+                <select id="dispatch_status">
+                    <option>On Time</option>
+                    <option>Late</option>
+                </select>
+            </div>
+            <button class="btn" onclick="confirmDispatch()">Confirm Dispatch</button>
+            <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast">Message</div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="navTo('dashboard')">
+            <i class="fas fa-chart-pie"></i>
+            <span>Stats</span>
+        </div>
+        <div class="nav-item" onclick="navTo('list')">
+            <i class="fas fa-list"></i>
+            <span>Projects</span>
+        </div>
+        <div class="nav-item" onclick="navTo('create')">
+            <i class="fas fa-plus-circle"></i>
+            <span>Add</span>
+        </div>
+    </nav>
+
+<script>
+    // --- DATA & STATE ---
+    // Simulate some data so dashboard looks good immediately
+    let projects = [
+        { id: '1', project_name: 'Mall Signage A', so_no: 'SO-001', qty: 5, salesperson: 'NINETTE', current_stage: 'Printing', delivery_status: 'On Time Completed', committed_date: '2023-11-01' },
+        { id: '2', project_name: 'Exhibition Stall', so_no: 'SO-002', qty: 1, salesperson: 'AJMAL', current_stage: 'Completed', delivery_status: 'Late', committed_date: '2023-10-25' },
+        { id: '3', project_name: 'Rollup Banners', so_no: 'SO-003', qty: 20, salesperson: 'BILAL', current_stage: 'Stitching', delivery_status: 'Pending', committed_date: '2023-11-05' }
+    ];
+
+    let statusChartInstance = null;
+    let deliveryChartInstance = null;
+
+    // --- THEME TOGGLE ---
+    function toggleTheme() {
+        document.body.classList.toggle('dark');
+        const icon = document.getElementById('theme-icon');
+        if (document.body.classList.contains('dark')) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        } else {
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        }
+        updateCharts(); // Redraw charts for new colors
+    }
+
+    // --- NAVIGATION ---
+    function navTo(viewName) {
+        document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+        document.getElementById('view-' + viewName).classList.add('active');
+        
+        // Update Title
+        const titles = { 'dashboard': 'Overview', 'list': 'All Projects', 'create': 'New Project', 'update': 'Update' };
+        document.getElementById('page-title').innerText = titles[viewName];
+
+        // Update Nav
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        const index = ['dashboard', 'list', 'create'].indexOf(viewName);
+        if(index > -1) document.querySelectorAll('.nav-item')[index].classList.add('active');
+
+        // Logic per view
+        if(viewName === 'dashboard') initDashboard();
+        if(viewName === 'list') renderProjectList();
+    }
+
+    // --- DASHBOARD & CHARTS ---
+    function initDashboard() {
+        updateDashboardStats();
+        renderCharts();
+        renderDashboardList();
+    }
+
+    function updateDashboardStats() {
+        const total = projects.length;
+        const completed = projects.filter(p => p.current_stage === 'Completed').length;
+        const inProgress = projects.filter(p => p.current_stage !== 'Completed' && p.current_stage !== 'On Hold').length;
+        const late = projects.filter(p => p.delivery_status === 'Late').length;
+        
+        // Calculate On-Time Rate
+        const delivered = projects.filter(p => p.current_stage === 'Completed');
+        let rate = 0;
+        if (delivered.length > 0) {
+            const onTime = delivered.filter(p => p.delivery_status === 'On Time Completed').length;
+            rate = Math.round((onTime / delivered.length) * 100);
+        }
+
+        // Animate Numbers
+        animateValue("stat-total", parseInt(document.getElementById("stat-total").innerText), total, 500);
+        animateValue("stat-progress", parseInt(document.getElementById("stat-progress").innerText), inProgress, 500);
+        animateValue("stat-completed", parseInt(document.getElementById("stat-completed").innerText), completed, 500);
+        animateValue("stat-late", parseInt(document.getElementById("stat-late").innerText), late, 500);
+        document.getElementById("stat-rate").innerText = rate + "%";
+    }
+
+    function animateValue(id, start, end, duration) {
+        if (start === end) return;
+        let range = end - start;
+        let current = start;
+        let increment = end > start ? 1 : -1;
+        let stepTime = Math.abs(Math.floor(duration / range));
+        let obj = document.getElementById(id);
+        let timer = setInterval(function() {
+            current += increment;
+            obj.innerHTML = current;
+            if (current == end) { clearInterval(timer); }
+        }, Math.max(stepTime, 20)); // Min 20ms
+    }
+
+    function getChartColors() {
+        const isDark = document.body.classList.contains('dark');
+        return {
+            text: isDark ? '#e5e7eb' : '#374151',
+            grid: isDark ? '#374151' : '#e5e7eb'
+        };
+    }
+
+    function renderCharts() {
+        const colors = getChartColors();
+        
+        // Data Prep
+        const completed = projects.filter(p => p.current_stage === 'Completed').length;
+        const progress = projects.filter(p => p.current_stage === 'Printing' || p.current_stage === 'Stitching').length;
+        const others = projects.length - completed - progress;
+
+        const late = projects.filter(p => p.delivery_status === 'Late').length;
+        const onTime = projects.filter(p => p.delivery_status === 'On Time Completed').length;
+
+        // 1. Status Doughnut Chart
+        const ctx1 = document.getElementById('statusChart').getContext('2d');
+        if(statusChartInstance) statusChartInstance.destroy();
+        
+        statusChartInstance = new Chart(ctx1, {
+            type: 'doughnut',
+            data: {
+                labels: ['Completed', 'In Progress', 'Others'],
+                datasets: [{
+                    data: [completed, progress, others],
+                    backgroundColor: ['#10b981', '#6366f1', '#9ca3af'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right', labels: { color: colors.text } },
+                    title: { display: true, text: 'Job Status Distribution', color: colors.text }
+                }
+            }
+        });
+
+        // 2. Delivery Bar Chart
+        const ctx2 = document.getElementById('deliveryChart').getContext('2d');
+        if(deliveryChartInstance) deliveryChartInstance.destroy();
+
+        deliveryChartInstance = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['On Time', 'Late'],
+                datasets: [{
+                    label: 'Deliveries',
+                    data: [onTime, late],
+                    backgroundColor: ['#10b981', '#ef4444'],
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, ticks: { color: colors.text }, grid: { color: colors.grid } },
+                    x: { ticks: { color: colors.text }, grid: { display: false } }
+                },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Delivery Performance', color: colors.text }
+                }
+            }
+        });
+    }
+
+    function updateCharts() {
+        if(statusChartInstance && deliveryChartInstance) {
+            renderCharts(); // Re-render to update colors
+        }
+    }
+
+    function renderDashboardList() {
+        const list = document.getElementById('dashboard-list');
+        list.innerHTML = '';
+        // Show last 3
+        [...projects].reverse().slice(0, 3).forEach(p => {
+            list.innerHTML += createCardHTML(p);
+        });
+    }
+
+    // --- LIST VIEW ---
+    function renderProjectList() {
+        const list = document.getElementById('project-list');
+        const search = document.getElementById('search-input').value.toLowerCase();
+        list.innerHTML = '';
+
+        const filtered = projects.filter(p => 
+            p.project_name.toLowerCase().includes(search) || 
+            p.so_no.toLowerCase().includes(search)
+        );
+
+        if (filtered.length === 0) {
+            document.getElementById('empty-state').style.display = 'block';
+        } else {
+            document.getElementById('empty-state').style.display = 'none';
+            filtered.forEach(p => {
+                list.innerHTML += createCardHTML(p);
+            });
+        }
+    }
+
+    function createCardHTML(p) {
+        let statusColor = 'bg-blue';
+        if(p.current_stage === 'Completed') statusColor = 'bg-green';
+        if(p.current_stage === 'On Hold') statusColor = 'bg-orange';
+        if(p.delivery_status === 'Late') statusColor = 'bg-red';
+
+        return `
+            <div class="card" onclick="openUpdate('${p.id}')">
+                <div class="card-header">
+                    <div class="card-title">${p.project_name}</div>
+                    <span class="badge ${statusColor}">${p.current_stage}</span>
+                </div>
+                <div class="card-subtitle">SO: ${p.so_no} • ${p.salesperson}</div>
+            </div>
+        `;
+    }
+
+    // --- CREATE LOGIC ---
+    function calcCreateDays() {
+        const start = document.getElementById('create_start').value;
+        const end = document.getElementById('create_end').value;
+        if(start && end) {
+            const diff = Math.ceil((new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24));
+            document.getElementById('create_days').value = diff >= 0 ? diff : 0;
+        }
+    }
+
+    function handleCreate(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const newProject = Object.fromEntries(formData.entries());
+        newProject.id = Date.now().toString();
+        newProject.current_stage = "Printing";
+        newProject.delivery_status = "Pending";
+        
+        projects.push(newProject);
+        showToast("Project Created!");
+        e.target.reset();
+        navTo('dashboard'); // Go back to dash to see charts update
+    }
+
+    // --- UPDATE LOGIC ---
+    let currentUpdateId = null;
+
+    function openUpdate(id) {
+        currentUpdateId = id;
+        const p = projects.find(x => x.id === id);
+        if(!p) return;
+
+        document.getElementById('update_id').value = p.id;
+        document.getElementById('update-project-name').innerText = p.project_name;
+        
+        const form = document.querySelector('#view-update form');
+        form.elements['current_stage'].value = p.current_stage || 'Printing';
+        form.elements['delivery_status'].value = p.delivery_status || 'On Time Completed';
+        form.elements['actual_date'].value = p.actual_date || '';
+        form.elements['material'].value = p.material || 'Taffeta Satin';
+        form.elements['manpower'].value = p.manpower || '';
+        form.elements['workshop_action'].value = p.workshop_action || '';
+
+        navTo('update');
+    }
+
+    function handleUpdate(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const updates = Object.fromEntries(formData.entries());
+        
+        // API LOGIC: console.log("PUT /projects/", updates);
+
+        const idx = projects.findIndex(x => x.id === currentUpdateId);
+        if(idx > -1) {
+            projects[idx] = { ...projects[idx], ...updates };
+            showToast("Project Updated!");
+            navTo('dashboard');
+        }
+    }
+
+    function deleteCurrentProject() {
+        if(confirm("Delete this project?")) {
+            projects = projects.filter(x => x.id !== currentUpdateId);
+            showToast("Project Deleted");
+            navTo('list');
+        }
+    }
+
+    // --- DISPATCH POPUP ---
+    function checkDispatchTrigger(stage) {
+        if(stage === 'Ready for dispatch' || stage === 'Completed') {
+            document.getElementById('modal-dispatch').style.display = 'flex';
+            document.getElementById('dispatch_date').valueAsDate = new Date();
+        }
+    }
+
+    function confirmDispatch() {
+        const date = document.getElementById('dispatch_date').value;
+        const status = document.getElementById('dispatch_status').value;
+        const form = document.querySelector('#view-update form');
+        form.elements['actual_date'].value = date;
+        form.elements['delivery_status'].value = status === 'On Time' ? 'On Time Completed' : 'Late';
+        closeModal();
+    }
+
+    function closeModal() {
+        document.getElementById('modal-dispatch').style.display = 'none';
+    }
+
+    // --- UTILS ---
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.innerText = msg;
+        t.className = "show";
+        setTimeout(function(){ t.className = t.className.replace("show", ""); }, 3000);
+    }
+
+    // --- INIT ---
+    document.getElementById('create_start').valueAsDate = new Date();
+    initDashboard();
+
+</script>
+
+</body>
+</html>
