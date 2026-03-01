@@ -14,28 +14,28 @@
 <style>
 :root {
     /* Light Theme Variables */
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
-    --bg: #f3f4f6;
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --bg: #f8fafc;
     --surface: #ffffff;
-    --text-main: #1f2937;
-    --text-sec: #6b7280;
-    --border: #e5e7eb;
+    --text-main: #1e293b;
+    --text-sec: #64748b;
+    --border: #e2e8f0;
     --success: #10b981;
     --danger: #ef4444;
     --warning: #f59e0b;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     --nav-height: 70px;
 }
 
 /* Dark Theme Variables */
 body.dark {
-    --bg: #111827;
-    --surface: #1f2937;
-    --text-main: #f9fafb;
-    --text-sec: #9ca3af;
-    --border: #374151;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --text-main: #f1f5f9;
+    --text-sec: #94a3b8;
+    --border: #334155;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -62,7 +62,7 @@ body {
     flex: 1;
     overflow-y: auto;
     padding: 20px;
-    padding-bottom: 90px; /* Space for bottom nav */
+    padding-bottom: 90px;
     scroll-behavior: smooth;
 }
 
@@ -106,56 +106,55 @@ header h1 { margin: 0; font-size: 1.25rem; font-weight: 700; color: var(--primar
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Dashboard Cards & Charts --- */
+/* --- Typography --- */
+h3 { margin-top: 30px; border-left: 4px solid var(--primary); padding-left: 10px; font-size: 1.1rem; }
+.section-label { font-size: 0.75rem; font-weight: 700; color: var(--text-sec); margin: 15px 0 8px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* --- Stats Grid --- */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     margin-bottom: 20px;
 }
-
 .stat-card {
     background: var(--surface);
     padding: 20px;
-    border-radius: 16px;
+    border-radius: 12px;
     box-shadow: var(--shadow);
     text-align: center;
-    transition: transform 0.2s;
 }
-
-.stat-card:active { transform: scale(0.95); }
-.stat-card.full-width { grid-column: span 2; }
-
 .stat-value { font-size: 1.8rem; font-weight: 800; color: var(--primary); margin: 5px 0; }
 .stat-label { font-size: 0.8rem; color: var(--text-sec); font-weight: 500; text-transform: uppercase; }
-
 .chart-container {
     background: var(--surface);
-    padding: 20px;
-    border-radius: 16px;
+    padding: 15px;
+    border-radius: 12px;
     box-shadow: var(--shadow);
     margin-bottom: 20px;
-    height: 250px;
+    height: 220px;
     position: relative;
 }
 
-/* --- Project List Cards --- */
+/* --- List Cards --- */
 .card {
     background: var(--surface);
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 16px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     box-shadow: var(--shadow);
-    border-left: 5px solid var(--primary);
-    transition: transform 0.2s;
+    border-left: 4px solid var(--border);
+    transition: transform 0.1s;
 }
 .card:active { transform: scale(0.98); }
+.card.delayed { border-left-color: var(--danger); }
+.card.ontime { border-left-color: var(--success); }
 
-.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-.card-title { font-weight: 700; font-size: 1.1rem; color: var(--text-main); }
-.card-subtitle { font-size: 0.85rem; color: var(--text-sec); }
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+.card-title { font-weight: 700; font-size: 1rem; color: var(--text-main); }
+.card-subtitle { font-size: 0.8rem; color: var(--text-sec); display: flex; justify-content: space-between;}
 
-.badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; color: white; }
+.badge { padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; color: white; }
 .bg-green { background: var(--success); }
 .bg-red { background: var(--danger); }
 .bg-blue { background: var(--primary); }
@@ -163,20 +162,20 @@ header h1 { margin: 0; font-size: 1.25rem; font-weight: 700; color: var(--primar
 .bg-gray { background: var(--text-sec); }
 
 /* --- Forms --- */
-.form-group { margin-bottom: 15px; }
-label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-sec); margin-bottom: 6px; }
+.form-group { margin-bottom: 12px; }
+label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-main); margin-bottom: 6px; }
 
 input, select, textarea {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
     border: 1px solid var(--border);
-    border-radius: 12px;
-    font-size: 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
     background: var(--bg);
     color: var(--text-main);
-    transition: border-color 0.3s, background-color 0.3s;
+    transition: border-color 0.2s;
+    font-family: 'Inter', sans-serif;
 }
-
 input:focus, select:focus, textarea:focus { 
     outline: none; 
     border-color: var(--primary); 
@@ -186,20 +185,22 @@ input:focus, select:focus, textarea:focus {
 /* --- Buttons --- */
 .btn {
     width: 100%;
-    padding: 16px;
+    padding: 14px;
     background: var(--primary);
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-    transition: transform 0.2s;
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+    transition: transform 0.1s;
+    margin-top: 10px;
 }
 .btn:active { transform: scale(0.98); }
-.btn-danger { background: var(--danger); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); margin-top: 10px; }
-.btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); margin-top: 10px; }
+.btn-danger { background: var(--danger); box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2); }
+.btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text-main); box-shadow: none; }
+.btn-sm { padding: 8px 16px; font-size: 0.85rem; width: auto; }
 
 /* --- Bottom Navigation --- */
 .bottom-nav {
@@ -210,10 +211,10 @@ input:focus, select:focus, textarea:focus {
     border-top: 1px solid var(--border);
     display: flex;
     justify-content: space-around;
-    padding: 10px 0;
+    padding: 8px 0;
     z-index: 100;
-    padding-bottom: max(10px, env(safe-area-inset-bottom));
-    box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
 }
 
 .nav-item {
@@ -221,17 +222,17 @@ input:focus, select:focus, textarea:focus {
     flex-direction: column;
     align-items: center;
     color: var(--text-sec);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     cursor: pointer;
     flex: 1;
     transition: color 0.3s;
 }
 
-.nav-item i { font-size: 1.4rem; margin-bottom: 4px; transition: transform 0.3s; }
+.nav-item i { font-size: 1.3rem; margin-bottom: 4px; transition: transform 0.3s; }
 .nav-item.active { color: var(--primary); }
-.nav-item.active i { transform: translateY(-4px); }
+.nav-item.active i { transform: translateY(-2px); }
 
-/* --- Modal --- */
+/* --- Modals --- */
 .modal {
     display: none;
     position: fixed;
@@ -246,30 +247,50 @@ input:focus, select:focus, textarea:focus {
 .modal-content {
     background: var(--surface);
     padding: 25px;
-    border-radius: 20px;
+    border-radius: 16px;
     width: 100%;
-    max-width: 400px;
+    max-width: 380px;
     animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     color: var(--text-main);
+    max-height: 90vh;
+    overflow-y: auto;
 }
-@keyframes popIn { from{transform: scale(0.8); opacity: 0;} to{transform: scale(1); opacity: 1;} }
+@keyframes popIn { from{transform: scale(0.9); opacity: 0;} to{transform: scale(1); opacity: 1;} }
+
+/* Checklist in Modal */
+.checklist-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+.checklist-item input {
+    width: auto;
+    margin-right: 12px;
+    transform: scale(1.3);
+}
+.checklist-item label {
+    margin: 0;
+    cursor: pointer;
+}
 
 /* --- Toast Notification --- */
 #toast {
     visibility: hidden;
-    min-width: 250px;
-    background-color: #333;
+    min-width: 280px;
+    background-color: #1f2937;
     color: #fff;
     text-align: center;
     border-radius: 50px;
-    padding: 12px;
+    padding: 14px;
     position: fixed;
     z-index: 300;
     bottom: 90px;
     left: 50%;
     transform: translateX(-50%);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     font-size: 0.9rem;
+    font-weight: 500;
 }
 #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
 @keyframes fadein { from {bottom: 70px; opacity: 0;} to {bottom: 90px; opacity: 1;} }
@@ -288,48 +309,38 @@ input:focus, select:focus, textarea:focus {
 
     <div id="app">
         
-        <!-- VIEW 1: DASHBOARD (Stats & Charts) -->
+        <!-- VIEW 1: DASHBOARD -->
         <div id="view-dashboard" class="view active">
-            
-            <!-- Stat Cards -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-label">Total Jobs</div>
                     <div class="stat-value" id="stat-total">0</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">In Progress</div>
-                    <div class="stat-value" id="stat-progress" style="color: var(--primary);">0</div>
+                    <div class="stat-label">In Production</div>
+                    <div class="stat-value" id="stat-progress">0</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">Completed</div>
                     <div class="stat-value" id="stat-completed" style="color: var(--success);">0</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Late Deliveries</div>
+                    <div class="stat-label">Delayed</div>
                     <div class="stat-value" id="stat-late" style="color: var(--danger);">0</div>
                 </div>
-                <div class="stat-card full-width">
-                    <div class="stat-label">On-Time Delivery Rate</div>
-                    <div class="stat-value" id="stat-rate">0%</div>
-                </div>
             </div>
 
-            <!-- Charts -->
             <div class="chart-container">
-                <canvas id="statusChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="deliveryChart"></canvas>
+                <canvas id="performanceChart"></canvas>
             </div>
 
-            <h3 style="margin-top: 30px; border-left: 4px solid var(--primary); padding-left: 10px;">Recent Projects</h3>
+            <h3>Recent Projects</h3>
             <div id="dashboard-list"></div>
         </div>
 
         <!-- VIEW 2: PROJECT LIST -->
         <div id="view-list" class="view">
-            <div style="margin-bottom: 15px;">
+            <div class="form-group">
                 <input type="text" id="search-input" placeholder="Search Project or SO No..." onkeyup="renderProjectList()">
             </div>
             <div id="project-list"></div>
@@ -343,26 +354,41 @@ input:focus, select:focus, textarea:focus {
         <div id="view-create" class="view">
             <h2 style="margin-top:0;">New Project</h2>
             <form onsubmit="handleCreate(event)">
-                <div class="form-group">
-                    <label>Date</label>
-                    <input type="date" name="date" required>
+                
+                <div class="section-label">Basic Info</div>
+                <div class="stats-grid" style="gap:10px; margin-bottom:0;">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>SO No</label>
+                        <input type="text" name="so_no" placeholder="SO-XXX" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>SO No</label>
-                    <input type="text" name="so_no" required>
-                </div>
+                
                 <div class="form-group">
                     <label>Project Name</label>
                     <input type="text" name="project_name" required>
                 </div>
-                <div class="form-group">
-                    <label>Job Type</label>
-                    <input type="text" name="job_type">
+                
+                <div class="stats-grid" style="gap:10px; margin-bottom:0;">
+                    <div class="form-group">
+                        <label>Job Type</label>
+                        <input type="text" name="job_type">
+                    </div>
+                    <div class="form-group">
+                        <label>Qty</label>
+                        <input type="number" name="qty" required>
+                    </div>
                 </div>
+
                 <div class="form-group">
-                    <label>Qty</label>
-                    <input type="number" name="qty" required>
+                    <label>Job Description</label>
+                    <textarea rows="2" name="job_description"></textarea>
                 </div>
+
+                <div class="section-label">People & Material</div>
                 <div class="form-group">
                     <label>Salesperson</label>
                     <select name="salesperson" required>
@@ -372,30 +398,78 @@ input:focus, select:focus, textarea:focus {
                         <option>DORISS</option><option>DAKHEEL</option><option>SREENIVAS</option>
                         <option>RESHMA</option><option>SUKHJINDER</option><option>RINKHU</option>
                         <option>PRASHANT</option><option>MAHERU</option><option>ESHA</option>
-                        <option>NATHA ASHIQUE</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Designer</label>
                     <select name="designer">
+                        <option value="">Select...</option>
                         <option>Neil</option><option>Ronaldo</option><option>Aditya</option><option>Krishna</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Committed Delivery Date</label>
-                    <input type="date" name="committed_date" required>
+                    <label>Material Used</label>
+                    <select name="material">
+                        <option>Taffeta Satin</option><option>Bridal Satin</option><option>Knitted Polyester</option>
+                        <option>Mesh Fabric</option><option>Blockout Fabric</option><option>Light Box Fabric</option>
+                        <option>Banner Matte (New)</option><option>Banner Matte (Old)</option><option>Fabric Canvas</option>
+                        <option>Minimai</option><option>Dry Fit</option>
+                    </select>
+                </div>
+
+                <div class="section-label">Specifications</div>
+                <div class="stats-grid" style="gap:10px; margin-bottom:0;">
+                    <div class="form-group">
+                        <label>Mock-up</label>
+                        <select name="mockup">
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Instructions</label>
+                        <select name="instructions">
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>Start Date</label>
-                    <input type="date" name="start_date" id="create_start" required>
+                    <label>Delivery & Install Instructions</label>
+                    <select name="delivery_install_instructions">
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
                 </div>
-                 <div class="form-group">
-                    <label>Completion Date</label>
-                    <input type="date" name="completion_date" id="create_end" onchange="calcCreateDays()">
+                <div class="form-group">
+                    <label>Poles and Base</label>
+                    <select name="poles_base">
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
                 </div>
-                 <div class="form-group">
-                    <label>Time to Complete (Days)</label>
-                    <input type="text" name="days" id="create_days" readonly style="background:var(--bg);">
+
+                <div class="section-label">Timeline & Delivery</div>
+                <div class="form-group">
+                    <label>Mode of Delivery</label>
+                    <select name="mode_of_delivery" required>
+                        <option value="Client Collect">Client Collect</option>
+                        <option value="Delivery Needed">Delivery Needed</option>
+                    </select>
+                </div>
+                <div class="stats-grid" style="gap:10px; margin-bottom:0;">
+                    <div class="form-group">
+                        <label>Committed Date</label>
+                        <input type="date" name="committed_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="date" name="start_date" id="create_start" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Start Time</label>
+                    <input type="time" name="start_time">
                 </div>
 
                 <button type="submit" class="btn">Create Project</button>
@@ -405,73 +479,150 @@ input:focus, select:focus, textarea:focus {
         <!-- VIEW 4: UPDATE PROJECT -->
         <div id="view-update" class="view">
             <input type="hidden" id="update_id">
-            <h2 style="margin-top:0;">Update Project</h2>
-            <div id="update-project-name" style="color: var(--primary); font-weight:bold; margin-bottom:15px;"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h2 style="margin:0;">Update Project</h2>
+                <span id="update-so" style="font-size:0.9rem; color:var(--text-sec); font-weight:bold;"></span>
+            </div>
+            <div id="update-project-name" style="color: var(--primary); font-weight:600; margin-bottom:15px; font-size:1.1rem;"></div>
             
             <form onsubmit="handleUpdate(event)">
+                
+                <div class="section-label">Current Status</div>
                 <div class="form-group">
                     <label>Current Stage</label>
-                    <select name="current_stage" id="update_stage" onchange="checkDispatchTrigger(this.value)">
-                        <option>Printing</option><option>Stitching</option><option>Ready for dispatch</option><option>Completed</option><option>On Hold</option>
+                    <select name="current_stage" id="update_stage" onchange="handleStageChange(this.value)">
+                        <option value="Work Assigned">Work Assigned</option>
+                        <option value="Printing">Printing</option>
+                        <option value="Stitching">Stitching</option>
+                        <option value="Ready for Dispatch">Ready for Dispatch</option>
+                        <option value="Completed">Completed</option>
+                        <option value="On Hold">On Hold</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Material Used</label>
-                    <select name="material">
-                        <option>Taffeta Satin</option><option>Bridal Satin</option><option>Knitted Polyester</option><option>Mesh Fabric</option>
-                        <option>Blockout Fabric</option><option>Light Box Fabric</option><option>Banner Matte (New)</option>
-                        <option>Banner Matte (Old)</option><option>Fabric Canvas</option><option>Minimai</option><option>Dry Fit</option>
+                    <label>Current Status (Health)</label>
+                    <select name="status_health" id="status_health" onchange="handleHealthChange(this.value)">
+                        <option value="On-Time">On-Time</option>
+                        <option value="Short Delay">Short Delay</option>
+                        <option value="Delayed">Delayed</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label>Delivery Status</label>
-                    <select name="delivery_status">
-                        <option>On Time Completed</option><option>Late</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Actual Delivery Date</label>
-                    <input type="date" name="actual_date">
-                </div>
-                <div class="form-group">
-                    <label>Remarks</label>
-                    <textarea rows="2" name="remarks"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Manpower</label>
-                    <input type="text" name="manpower">
-                </div>
-                <div class="form-group">
-                    <label>Workshop Action</label>
-                    <input type="text" name="workshop_action">
                 </div>
 
-                <button type="submit" class="btn">Save Update</button>
-                <button type="button" class="btn btn-danger" onclick="deleteCurrentProject()">Delete</button>
+                <!-- Hidden fields populated by logic/modals -->
+                <div id="delay-reason-group" style="display:none;">
+                    <div class="form-group">
+                        <label>Delay Type</label>
+                        <select name="delay_type">
+                            <option value="Production Delay">Production Delay</option>
+                            <option value="Delivery Delay">Delivery Delay</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Delay Reason</label>
+                        <input type="text" name="delay_reason" placeholder="Enter specific reason...">
+                    </div>
+                </div>
+
+                <div class="section-label">Dispatch & Completion</div>
+                <div class="form-group" id="actual-date-group" style="display:none;">
+                    <label>Actual Delivery Date</label>
+                    <input type="date" name="actual_date" id="actual_date_input">
+                    <small style="color:var(--text-sec)">Delayed Days: <span id="calc_delayed_days">0</span></small>
+                </div>
+
+                <div class="form-group" id="logistics-group" style="display:none;">
+                    <label>Driver Name</label>
+                    <input type="text" name="driver_name">
+                </div>
+                
+                <div class="section-label">Notes</div>
+                <div class="form-group">
+                    <label>Remarks</label>
+                    <textarea rows="3" name="remarks"></textarea>
+                </div>
+
+                <button type="submit" class="btn">Save Updates</button>
+                <button type="button" class="btn btn-danger" onclick="deleteCurrentProject()">Delete Project</button>
                 <button type="button" class="btn btn-outline" onclick="navTo('list')">Cancel</button>
             </form>
         </div>
 
+        <!-- VIEW 5: ANALYSIS -->
+        <div id="view-analysis" class="view">
+            <h2 style="margin-top:0;">Performance Analysis</h2>
+            <div class="chart-container" style="height: 250px;">
+                <canvas id="analysisChart"></canvas>
+            </div>
+            <div id="analysis-log" style="margin-top:20px;">
+                <!-- Analysis Cards will go here -->
+            </div>
+        </div>
+
     </div>
 
-    <!-- POPUP MODAL -->
-    <div id="modal-dispatch" class="modal">
+    <!-- MODAL: PRINTING CHECKLIST -->
+    <div id="modal-printing" class="modal">
         <div class="modal-content">
-            <h3 style="margin-top:0; color: var(--primary);">Ready for Dispatch?</h3>
-            <p style="font-size:0.9rem; color:var(--text-sec); margin-bottom:20px;">Please confirm the final dispatch details.</p>
-            <div class="form-group">
-                <label>Final Completion Date</label>
-                <input type="date" id="dispatch_date">
-            </div>
-            <div class="form-group">
-                <label>Final Delivery Status</label>
-                <select id="dispatch_status">
-                    <option>On Time</option>
-                    <option>Late</option>
-                </select>
-            </div>
-            <button class="btn" onclick="confirmDispatch()">Confirm Dispatch</button>
-            <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+            <h3 style="margin-top:0;">Printing Check</h3>
+            <p style="font-size:0.9rem; color:var(--text-sec);">Verify the following before moving to Stitching:</p>
+            <form id="form-printing">
+                <div class="checklist-item"><input type="checkbox" id="chk_size" required><label for="chk_size">Correct Size</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk_color" required><label for="chk_color">Correct Color</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk_print_defect" required><label for="chk_print_defect">No Printing Defects</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk_stitch_issue" required><label for="chk_stitch_issue">No Stitching Issues (pre-check)</label></div>
+                <button type="submit" class="btn">Approve & Move to Stitching</button>
+                <button type="button" class="btn btn-outline" onclick="closeModal('modal-printing')">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: STITCHING CHECKLIST -->
+    <div id="modal-stitching" class="modal">
+        <div class="modal-content">
+            <h3 style="margin-top:0;">Stitching Check</h3>
+            <p style="font-size:0.9rem; color:var(--text-sec);">Final quality check:</p>
+            <form id="form-stitching">
+                <div class="checklist-item"><input type="checkbox" id="chk_stitch_final" required><label for="chk_stitch_final">Stitching Perfect</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk_finish" required><label for="chk_finish">Finishing Clean</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk_access" required><label for="chk_access">Accessories/Poles Attached</label></div>
+                <button type="submit" class="btn">Approve & Ready for Dispatch</button>
+                <button type="button" class="btn btn-outline" onclick="closeModal('modal-stitching')">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: DRIVER ASSIGNMENT (For Delivery Needed) -->
+    <div id="modal-driver" class="modal">
+        <div class="modal-content">
+            <h3 style="margin-top:0; color: var(--primary);">Dispatch Details</h3>
+            <p style="font-size:0.9rem; color:var(--text-sec);">Assign resources for delivery.</p>
+            <form id="form-driver">
+                <div class="form-group">
+                    <label>Manpower Assigned</label>
+                    <input type="text" id="driver_manpower" placeholder="e.g. 2 Staff">
+                </div>
+                <div class="form-group">
+                    <label>Driver Name</label>
+                    <input type="text" id="driver_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Vehicle No</label>
+                    <input type="text" id="driver_vehicle">
+                </div>
+                <div class="form-group">
+                    <label>Delivery Status</label>
+                    <select id="dispatch_status_health">
+                        <option value="On-Time">On Time</option>
+                        <option value="Delayed">Delayed</option>
+                    </select>
+                </div>
+                <div id="dispatch_delay_group" style="display:none;" class="form-group">
+                    <label>Delivery Delay Reason</label>
+                    <input type="text" id="dispatch_delay_reason" placeholder="Why is it delayed?">
+                </div>
+                <button type="submit" class="btn">Confirm Dispatch</button>
+                <button type="button" class="btn btn-outline" onclick="closeModal('modal-driver')">Cancel</button>
+            </form>
         </div>
     </div>
 
@@ -492,19 +643,46 @@ input:focus, select:focus, textarea:focus {
             <i class="fas fa-plus-circle"></i>
             <span>Add</span>
         </div>
+        <div class="nav-item" onclick="navTo('analysis')">
+            <i class="fas fa-chart-line"></i>
+            <span>Analysis</span>
+        </div>
     </nav>
 
 <script>
     // --- DATA & STATE ---
-    // Simulate some data so dashboard looks good immediately
     let projects = [
-        { id: '1', project_name: 'Mall Signage A', so_no: 'SO-001', qty: 5, salesperson: 'NINETTE', current_stage: 'Printing', delivery_status: 'On Time Completed', committed_date: '2023-11-01' },
-        { id: '2', project_name: 'Exhibition Stall', so_no: 'SO-002', qty: 1, salesperson: 'AJMAL', current_stage: 'Completed', delivery_status: 'Late', committed_date: '2023-10-25' },
-        { id: '3', project_name: 'Rollup Banners', so_no: 'SO-003', qty: 20, salesperson: 'BILAL', current_stage: 'Stitching', delivery_status: 'Pending', committed_date: '2023-11-05' }
+        { 
+            id: '1', 
+            project_name: 'Mall Signage A', 
+            so_no: 'SO-001', 
+            qty: 5, 
+            salesperson: 'NINETTE', 
+            current_stage: 'Work Assigned', 
+            status_health: 'On-Time', 
+            mode_of_delivery: 'Delivery Needed',
+            committed_date: '2023-11-01',
+            material: 'Taffeta Satin'
+        },
+        { 
+            id: '2', 
+            project_name: 'Exhibition Stall', 
+            so_no: 'SO-002', 
+            qty: 1, 
+            salesperson: 'AJMAL', 
+            current_stage: 'Completed', 
+            status_health: 'Delayed', 
+            mode_of_delivery: 'Client Collect',
+            committed_date: '2023-10-25',
+            actual_date: '2023-10-28',
+            delay_reason: 'Material shortage',
+            material: 'Mesh Fabric'
+        }
     ];
 
-    let statusChartInstance = null;
-    let deliveryChartInstance = null;
+    let performanceChartInstance = null;
+    let analysisChartInstance = null;
+    let currentUpdateId = null;
 
     // --- THEME TOGGLE ---
     function toggleTheme() {
@@ -517,7 +695,7 @@ input:focus, select:focus, textarea:focus {
             icon.classList.remove('fa-sun');
             icon.classList.add('fa-moon');
         }
-        updateCharts(); // Redraw charts for new colors
+        updateCharts();
     }
 
     // --- NAVIGATION ---
@@ -525,93 +703,57 @@ input:focus, select:focus, textarea:focus {
         document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
         document.getElementById('view-' + viewName).classList.add('active');
         
-        // Update Title
-        const titles = { 'dashboard': 'Overview', 'list': 'All Projects', 'create': 'New Project', 'update': 'Update' };
+        const titles = { 
+            'dashboard': 'Dashboard', 
+            'list': 'All Projects', 
+            'create': 'New Project', 
+            'update': 'Update Project',
+            'analysis': 'Analysis & Reports' 
+        };
         document.getElementById('page-title').innerText = titles[viewName];
 
-        // Update Nav
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-        const index = ['dashboard', 'list', 'create'].indexOf(viewName);
+        const index = ['dashboard', 'list', 'create', 'analysis'].indexOf(viewName);
         if(index > -1) document.querySelectorAll('.nav-item')[index].classList.add('active');
 
-        // Logic per view
         if(viewName === 'dashboard') initDashboard();
         if(viewName === 'list') renderProjectList();
+        if(viewName === 'analysis') initAnalysis();
     }
 
-    // --- DASHBOARD & CHARTS ---
+    // --- DASHBOARD LOGIC ---
     function initDashboard() {
-        updateDashboardStats();
-        renderCharts();
+        const total = projects.length;
+        const inProgress = projects.filter(p => p.current_stage !== 'Completed' && p.current_stage !== 'On Hold').length;
+        const completed = projects.filter(p => p.current_stage === 'Completed').length;
+        const delayed = projects.filter(p => p.status_health === 'Delayed').length;
+
+        document.getElementById("stat-total").innerText = total;
+        document.getElementById("stat-progress").innerText = inProgress;
+        document.getElementById("stat-completed").innerText = completed;
+        document.getElementById("stat-late").innerText = delayed;
+
+        renderDashboardCharts();
         renderDashboardList();
     }
 
-    function updateDashboardStats() {
-        const total = projects.length;
-        const completed = projects.filter(p => p.current_stage === 'Completed').length;
-        const inProgress = projects.filter(p => p.current_stage !== 'Completed' && p.current_stage !== 'On Hold').length;
-        const late = projects.filter(p => p.delivery_status === 'Late').length;
-        
-        // Calculate On-Time Rate
-        const delivered = projects.filter(p => p.current_stage === 'Completed');
-        let rate = 0;
-        if (delivered.length > 0) {
-            const onTime = delivered.filter(p => p.delivery_status === 'On Time Completed').length;
-            rate = Math.round((onTime / delivered.length) * 100);
-        }
-
-        // Animate Numbers
-        animateValue("stat-total", parseInt(document.getElementById("stat-total").innerText), total, 500);
-        animateValue("stat-progress", parseInt(document.getElementById("stat-progress").innerText), inProgress, 500);
-        animateValue("stat-completed", parseInt(document.getElementById("stat-completed").innerText), completed, 500);
-        animateValue("stat-late", parseInt(document.getElementById("stat-late").innerText), late, 500);
-        document.getElementById("stat-rate").innerText = rate + "%";
-    }
-
-    function animateValue(id, start, end, duration) {
-        if (start === end) return;
-        let range = end - start;
-        let current = start;
-        let increment = end > start ? 1 : -1;
-        let stepTime = Math.abs(Math.floor(duration / range));
-        let obj = document.getElementById(id);
-        let timer = setInterval(function() {
-            current += increment;
-            obj.innerHTML = current;
-            if (current == end) { clearInterval(timer); }
-        }, Math.max(stepTime, 20)); // Min 20ms
-    }
-
-    function getChartColors() {
+    function renderDashboardCharts() {
+        const ctx = document.getElementById('performanceChart').getContext('2d');
         const isDark = document.body.classList.contains('dark');
-        return {
-            text: isDark ? '#e5e7eb' : '#374151',
-            grid: isDark ? '#374151' : '#e5e7eb'
-        };
-    }
+        const textColor = isDark ? '#e5e7eb' : '#374151';
 
-    function renderCharts() {
-        const colors = getChartColors();
-        
-        // Data Prep
         const completed = projects.filter(p => p.current_stage === 'Completed').length;
-        const progress = projects.filter(p => p.current_stage === 'Printing' || p.current_stage === 'Stitching').length;
-        const others = projects.length - completed - progress;
+        const active = projects.filter(p => p.current_stage !== 'Completed').length;
 
-        const late = projects.filter(p => p.delivery_status === 'Late').length;
-        const onTime = projects.filter(p => p.delivery_status === 'On Time Completed').length;
+        if(performanceChartInstance) performanceChartInstance.destroy();
 
-        // 1. Status Doughnut Chart
-        const ctx1 = document.getElementById('statusChart').getContext('2d');
-        if(statusChartInstance) statusChartInstance.destroy();
-        
-        statusChartInstance = new Chart(ctx1, {
+        performanceChartInstance = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['Completed', 'In Progress', 'Others'],
+                labels: ['Active Projects', 'Completed'],
                 datasets: [{
-                    data: [completed, progress, others],
-                    backgroundColor: ['#10b981', '#6366f1', '#9ca3af'],
+                    data: [active, completed],
+                    backgroundColor: ['#3b82f6', '#10b981'],
                     borderWidth: 0
                 }]
             },
@@ -619,53 +761,16 @@ input:focus, select:focus, textarea:focus {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { position: 'right', labels: { color: colors.text } },
-                    title: { display: true, text: 'Job Status Distribution', color: colors.text }
+                    legend: { position: 'bottom', labels: { color: textColor } }
                 }
             }
         });
-
-        // 2. Delivery Bar Chart
-        const ctx2 = document.getElementById('deliveryChart').getContext('2d');
-        if(deliveryChartInstance) deliveryChartInstance.destroy();
-
-        deliveryChartInstance = new Chart(ctx2, {
-            type: 'bar',
-            data: {
-                labels: ['On Time', 'Late'],
-                datasets: [{
-                    label: 'Deliveries',
-                    data: [onTime, late],
-                    backgroundColor: ['#10b981', '#ef4444'],
-                    borderRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: { beginAtZero: true, ticks: { color: colors.text }, grid: { color: colors.grid } },
-                    x: { ticks: { color: colors.text }, grid: { display: false } }
-                },
-                plugins: {
-                    legend: { display: false },
-                    title: { display: true, text: 'Delivery Performance', color: colors.text }
-                }
-            }
-        });
-    }
-
-    function updateCharts() {
-        if(statusChartInstance && deliveryChartInstance) {
-            renderCharts(); // Re-render to update colors
-        }
     }
 
     function renderDashboardList() {
         const list = document.getElementById('dashboard-list');
         list.innerHTML = '';
-        // Show last 3
-        [...projects].reverse().slice(0, 3).forEach(p => {
+        [...projects].reverse().slice(0, 5).forEach(p => {
             list.innerHTML += createCardHTML(p);
         });
     }
@@ -678,7 +783,7 @@ input:focus, select:focus, textarea:focus {
 
         const filtered = projects.filter(p => 
             p.project_name.toLowerCase().includes(search) || 
-            p.so_no.toLowerCase().includes(search)
+            (p.so_no && p.so_no.toLowerCase().includes(search))
         );
 
         if (filtered.length === 0) {
@@ -692,49 +797,54 @@ input:focus, select:focus, textarea:focus {
     }
 
     function createCardHTML(p) {
-        let statusColor = 'bg-blue';
-        if(p.current_stage === 'Completed') statusColor = 'bg-green';
-        if(p.current_stage === 'On Hold') statusColor = 'bg-orange';
-        if(p.delivery_status === 'Late') statusColor = 'bg-red';
+        let statusClass = p.status_health === 'Delayed' ? 'delayed' : (p.status_health === 'On-Time' ? 'ontime' : '');
+        
+        // Determine badge color based on stage
+        let badgeClass = 'bg-blue';
+        if(p.current_stage === 'Completed') badgeClass = 'bg-green';
+        if(p.current_stage === 'Printing') badgeClass = 'bg-orange';
+        if(p.current_stage === 'Stitching') badgeClass = 'bg-blue';
 
         return `
-            <div class="card" onclick="openUpdate('${p.id}')">
+            <div class="card ${statusClass}" onclick="openUpdate('${p.id}')">
                 <div class="card-header">
                     <div class="card-title">${p.project_name}</div>
-                    <span class="badge ${statusColor}">${p.current_stage}</span>
+                    <span class="badge ${badgeClass}">${p.current_stage}</span>
                 </div>
-                <div class="card-subtitle">SO: ${p.so_no} • ${p.salesperson}</div>
+                <div class="card-subtitle">
+                    <span>SO: ${p.so_no || 'N/A'}</span>
+                    <span>${p.salesperson || ''}</span>
+                </div>
+                <div class="card-subtitle" style="margin-top:5px; font-size:0.75rem;">
+                    <span style="color:${p.status_health === 'Delayed' ? 'var(--danger)' : 'var(--text-sec)'}">
+                        <i class="fas fa-clock"></i> ${p.status_health}
+                    </span>
+                    <span>${p.mode_of_delivery || ''}</span>
+                </div>
             </div>
         `;
     }
 
     // --- CREATE LOGIC ---
-    function calcCreateDays() {
-        const start = document.getElementById('create_start').value;
-        const end = document.getElementById('create_end').value;
-        if(start && end) {
-            const diff = Math.ceil((new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24));
-            document.getElementById('create_days').value = diff >= 0 ? diff : 0;
-        }
-    }
-
     function handleCreate(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
         const newProject = Object.fromEntries(formData.entries());
+        
+        // Set Initial Status
         newProject.id = Date.now().toString();
-        newProject.current_stage = "Printing";
-        newProject.delivery_status = "Pending";
+        newProject.current_stage = "Work Assigned";
+        newProject.status_health = "On-Time";
         
         projects.push(newProject);
-        showToast("Project Created!");
+        showToast("Project Created Successfully");
         e.target.reset();
-        navTo('dashboard'); // Go back to dash to see charts update
+        // Set default date again
+        document.getElementById('create_start').valueAsDate = new Date();
+        navTo('dashboard');
     }
 
     // --- UPDATE LOGIC ---
-    let currentUpdateId = null;
-
     function openUpdate(id) {
         currentUpdateId = id;
         const p = projects.find(x => x.id === id);
@@ -742,60 +852,267 @@ input:focus, select:focus, textarea:focus {
 
         document.getElementById('update_id').value = p.id;
         document.getElementById('update-project-name').innerText = p.project_name;
-        
+        document.getElementById('update-so').innerText = p.so_no || '';
+
+        // Populate Form
         const form = document.querySelector('#view-update form');
-        form.elements['current_stage'].value = p.current_stage || 'Printing';
-        form.elements['delivery_status'].value = p.delivery_status || 'On Time Completed';
-        form.elements['actual_date'].value = p.actual_date || '';
-        form.elements['material'].value = p.material || 'Taffeta Satin';
-        form.elements['manpower'].value = p.manpower || '';
-        form.elements['workshop_action'].value = p.workshop_action || '';
+        form.elements['current_stage'].value = p.current_stage || 'Work Assigned';
+        form.elements['status_health'].value = p.status_health || 'On-Time';
+        
+        // Show/Hide delay fields based on load
+        toggleDelayFields(p.status_health);
+
+        // Dates and Logistics
+        if(p.current_stage === 'Completed' || p.actual_date) {
+            document.getElementById('actual-date-group').style.display = 'block';
+            form.elements['actual_date'].value = p.actual_date || '';
+            calculateDelay();
+        } else {
+            document.getElementById('actual-date-group').style.display = 'none';
+        }
+
+        if(p.mode_of_delivery === 'Delivery Needed' && (p.current_stage === 'Ready for Dispatch' || p.current_stage === 'Completed')) {
+             document.getElementById('logistics-group').style.display = 'block';
+             form.elements['driver_name'].value = p.driver_name || '';
+        } else {
+             document.getElementById('logistics-group').style.display = 'none';
+        }
+
+        form.elements['delay_reason'].value = p.delay_reason || '';
+        form.elements['remarks'].value = p.remarks || '';
 
         navTo('update');
     }
+
+    // Handle Stage Change (The Workflow Engine)
+    function handleStageChange(newStage) {
+        // Trigger Checklists
+        if(newStage === 'Printing') {
+            document.getElementById('modal-printing').style.display = 'flex';
+            // Reset form temporarily so user has to fill it
+            document.getElementById('form-printing').reset();
+            // We will actually set the value AFTER they approve the modal
+            document.querySelector('#view-update form').elements['current_stage'].value = 'Work Assigned'; 
+        } 
+        else if (newStage === 'Stitching') {
+            document.getElementById('modal-stitching').style.display = 'flex';
+            document.getElementById('form-stitching').reset();
+            document.querySelector('#view-update form').elements['current_stage'].value = 'Printing';
+        }
+        else if (newStage === 'Ready for Dispatch') {
+            // Check Delivery Mode
+            const p = projects.find(x => x.id === currentUpdateId);
+            if(p.mode_of_delivery === 'Client Collect') {
+                showToast("Inform Team: Client Collecting Item");
+                // Keep stage as Ready for Dispatch
+            } else {
+                // Open Driver Modal
+                document.getElementById('modal-driver').style.display = 'flex';
+                document.getElementById('form-driver').reset();
+                document.getElementById('dispatch_delay_group').style.display = 'none';
+                // Revert stage change until modal confirmed
+                document.querySelector('#view-update form').elements['current_stage'].value = 'Stitching'; 
+            }
+        }
+        else if (newStage === 'Completed') {
+             document.getElementById('actual-date-group').style.display = 'block';
+             // Auto-fill today if empty
+             if(!document.getElementById('actual_date_input').value) {
+                 document.getElementById('actual_date_input').valueAsDate = new Date();
+             }
+             calculateDelay();
+        }
+    }
+
+    // Handle Health Status (Delay Logic)
+    function handleHealthChange(status) {
+        toggleDelayFields(status);
+    }
+
+    function toggleDelayFields(status) {
+        const group = document.getElementById('delay-reason-group');
+        if(status === 'Delayed' || status === 'Short Delay') {
+            group.style.display = 'block';
+        } else {
+            group.style.display = 'none';
+        }
+    }
+
+    function calculateDelay() {
+        const committed = projects.find(x => x.id === currentUpdateId).committed_date;
+        const actual = document.getElementById('actual_date_input').value;
+        if(committed && actual) {
+            const diffTime = Math.abs(new Date(actual) - new Date(committed));
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            // Note: This simple logic calculates difference in days. 
+            // If Actual > Committed, it's delay.
+            const d1 = new Date(committed);
+            const d2 = new Date(actual);
+            let delayed = 0;
+            if(d2 > d1) {
+                delayed = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24));
+            }
+            document.getElementById('calc_delayed_days').innerText = delayed > 0 ? delayed : 0;
+        }
+    }
+
+    // --- MODAL FORM HANDLERS ---
+
+    // 1. Printing Approval
+    document.getElementById('form-printing').addEventListener('submit', function(e){
+        e.preventDefault();
+        closeModal('modal-printing');
+        // Set stage to Printing (which implies it's approved in this context)
+        document.querySelector('#view-update form').elements['current_stage'].value = 'Printing';
+        showToast("Printing Approved");
+    });
+
+    // 2. Stitching Approval
+    document.getElementById('form-stitching').addEventListener('submit', function(e){
+        e.preventDefault();
+        closeModal('modal-stitching');
+        // Set stage to Stitching
+        document.querySelector('#view-update form').elements['current_stage'].value = 'Stitching';
+        showToast("Stitching Approved");
+    });
+
+    // 3. Driver Assignment
+    document.getElementById('form-driver').addEventListener('submit', function(e){
+        e.preventDefault();
+        
+        // Get Values
+        const manpower = document.getElementById('driver_manpower').value;
+        const driver = document.getElementById('driver_name').value;
+        const vehicle = document.getElementById('driver_vehicle').value;
+        const health = document.getElementById('dispatch_status_health').value;
+        const reason = document.getElementById('dispatch_delay_reason').value;
+
+        // Update Main Form
+        const mainForm = document.querySelector('#view-update form');
+        mainForm.elements['current_stage'].value = 'Ready for Dispatch';
+        mainForm.elements['status_health'].value = health;
+        
+        // We have to temporarily store driver info in the inputs to be saved by handleUpdate
+        // Let's create hidden inputs or just assign them manually before submit
+        // For simplicity in this structure, we'll add them to the data object in handleUpdate logic via global vars or hidden inputs.
+        // Let's use a simpler approach: store them in dataset of the form
+        mainForm.dataset.driver_name = driver;
+        mainForm.dataset.manpower = manpower;
+        mainForm.dataset.vehicle = vehicle;
+
+        if(health === 'Delayed' && reason) {
+            mainForm.elements['delay_reason'].value = reason;
+        }
+
+        closeModal('modal-driver');
+        showToast("Dispatch Scheduled");
+    });
+
+    // Handle Dispatch Status Change in Modal
+    document.getElementById('dispatch_status_health').addEventListener('change', function(e){
+        if(e.target.value === 'Delayed') {
+            document.getElementById('dispatch_delay_group').style.display = 'block';
+        } else {
+            document.getElementById('dispatch_delay_group').style.display = 'none';
+        }
+    });
 
     function handleUpdate(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
         const updates = Object.fromEntries(formData.entries());
         
-        // API LOGIC: console.log("PUT /projects/", updates);
+        // Merge in driver data if exists
+        if(e.target.dataset.driver_name) {
+            updates.driver_name = e.target.dataset.driver_name;
+            updates.manpower = e.target.dataset.manpower;
+            updates.vehicle = e.target.dataset.vehicle;
+        }
 
         const idx = projects.findIndex(x => x.id === currentUpdateId);
         if(idx > -1) {
             projects[idx] = { ...projects[idx], ...updates };
             showToast("Project Updated!");
-            navTo('dashboard');
+            navTo('list');
         }
     }
 
     function deleteCurrentProject() {
-        if(confirm("Delete this project?")) {
+        if(confirm("Are you sure you want to delete this project?")) {
             projects = projects.filter(x => x.id !== currentUpdateId);
             showToast("Project Deleted");
             navTo('list');
         }
     }
 
-    // --- DISPATCH POPUP ---
-    function checkDispatchTrigger(stage) {
-        if(stage === 'Ready for dispatch' || stage === 'Completed') {
-            document.getElementById('modal-dispatch').style.display = 'flex';
-            document.getElementById('dispatch_date').valueAsDate = new Date();
+    // --- ANALYSIS VIEW ---
+    function initAnalysis() {
+        const ctx = document.getElementById('analysisChart').getContext('2d');
+        const isDark = document.body.classList.contains('dark');
+        const textColor = isDark ? '#e5e7eb' : '#374151';
+
+        // Analyze Reasons
+        const delayedProjects = projects.filter(p => p.status_health === 'Delayed' && p.delay_reason);
+        const reasons = delayedProjects.map(p => p.delay_reason);
+        
+        // Count frequencies
+        const counts = {};
+        reasons.forEach(r => { counts[r] = (counts[r] || 0) + 1; });
+
+        const labels = Object.keys(counts);
+        const data = Object.values(counts);
+
+        if(analysisChartInstance) analysisChartInstance.destroy();
+
+        analysisChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels.length ? labels : ['No Data'],
+                datasets: [{
+                    label: 'Delay Reasons',
+                    data: data.length ? data : [0],
+                    backgroundColor: '#ef4444',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, ticks: { color: textColor } },
+                    x: { ticks: { color: textColor } }
+                },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Root Causes of Delays', color: textColor }
+                }
+            }
+        });
+
+        // Text Analysis List
+        const log = document.getElementById('analysis-log');
+        log.innerHTML = '';
+        const completed = projects.filter(p => p.current_stage === 'Completed');
+        
+        if(completed.length === 0) {
+            log.innerHTML = '<p style="text-align:center; color:var(--text-sec)">No completed projects to analyze.</p>';
+        } else {
+            completed.forEach(p => {
+                const delay = p.delay_reason ? `<span style="color:var(--danger)">Reason: ${p.delay_reason}</span>` : '<span style="color:var(--success)">On Time</span>';
+                log.innerHTML += `
+                    <div style="background:var(--surface); padding:12px; border-radius:8px; margin-bottom:10px; border-left:3px solid var(--primary);">
+                        <div style="font-weight:700;">${p.project_name}</div>
+                        <div style="font-size:0.8rem; color:var(--text-sec);">SO: ${p.so_no}</div>
+                        <div style="font-size:0.85rem; margin-top:5px;">${delay}</div>
+                    </div>
+                `;
+            });
         }
     }
 
-    function confirmDispatch() {
-        const date = document.getElementById('dispatch_date').value;
-        const status = document.getElementById('dispatch_status').value;
-        const form = document.querySelector('#view-update form');
-        form.elements['actual_date'].value = date;
-        form.elements['delivery_status'].value = status === 'On Time' ? 'On Time Completed' : 'Late';
-        closeModal();
-    }
-
-    function closeModal() {
-        document.getElementById('modal-dispatch').style.display = 'none';
+    function updateCharts() {
+        if(performanceChartInstance) initDashboard();
+        if(analysisChartInstance) initAnalysis();
     }
 
     // --- UTILS ---
@@ -804,6 +1121,10 @@ input:focus, select:focus, textarea:focus {
         t.innerText = msg;
         t.className = "show";
         setTimeout(function(){ t.className = t.className.replace("show", ""); }, 3000);
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
     }
 
     // --- INIT ---
